@@ -1,0 +1,45 @@
+LCS Problem Statement: Given two sequences, find the length of longest subsequence present in both of them.
+
+
+int lcs( char[] first, char[] second, int nfirst, int nsecond ) 
+  { 
+    if (nfirst == 0 || nsecond == 0) 
+      return 0; 
+    if (first[nfirst-1] == second[nsecond-1]) 
+      return 1 + lcs(first, second, nfirst-1, nsecond-1); 
+    else
+      return max(lcs(first, second, nfirst, nsecond-1), lcs(first, second, nfirst-1, nsecond)); 
+  } 
+  
+  
+  Time complexity of the above recursive approach is O(2^n) 
+  
+  
+                    lcs("AXYT", "AYZX")
+                       /                 
+         lcs("AXY", "AYZX")            lcs("AXYT", "AYZ")
+         /                              /               
+lcs("AX", "AYZX") lcs("AXY", "AYZ")   lcs("AXY", "AYZ") lcs("AXYT", "AY")
+
+
+
+int lcs( char[] first, char[] second, int nfirst, int nsecond ) 
+  { 
+    int count[][] = new int[nfirst+1][nsecond+1]; 
+      
+    for (int i=0; i<=nfirst; i++) 
+    { 
+      for (int j=0; j<=nsecond; j++) 
+      { 
+        if (i == 0 || j == 0) 
+            count[i][j] = 0; 
+        else if (X[i-1] == Y[j-1]) 
+            count[i][j] = count[i-1][j-1] + 1; 
+        else
+            count[i][j] = max(count[i-1][j], count[i][j-1]); 
+      } 
+    } 
+  return count[nfirst][nsecond]; 
+  } 
+  
+  Time Complexity of the above implementation is O(mn) which is better than the worst-case time complexity of above Recursive implementation.
