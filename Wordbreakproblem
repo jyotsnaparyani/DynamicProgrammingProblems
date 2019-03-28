@@ -1,0 +1,60 @@
+Given an input string and a dictionary of words, find out if the input string can be segmented 
+into a space-separated sequence of dictionary words. 
+Consider the following dictionary 
+{ i, like, sam, sung, samsung, mobile, ice, 
+  cream, icecream, man, go, mango}
+
+Input:  ilike
+Output: Yes 
+The string can be segmented as "i like".
+
+
+Following is the Recursive implementation:
+
+public static bool wordBreak(String word) 
+{ 
+        int size = word.length(); 
+        if (size == 0) 
+          return true; 
+        
+        for (int i = 1; i <= size; i++) 
+        { 
+            if (dictionary.contains(word.substring(0,i)) &&  
+                    wordBreak(word.substring(i,size))) 
+            return true; 
+        }         
+        return false; 
+} 
+
+           abcd
+          / \   \     
+        bcd  cd  d
+       /   \  |
+      cd   d  d  
+      
+Dynamic Programming Solution : 
+
+public static boolean wordBreakDP(Set<String> dictionary, String text){
+	int n = text.length();
+	if(n == 0){
+		return true;
+	}
+	
+	bool[] dp = new bool[n];  
+	
+	for(int i = 0; i< n; i++){
+		if(dictionary.contains(text.substring(0, i+1))){
+			dp[i] = true;
+		}
+		else{
+			for(int j = 0; j < i; j++){
+				if(dp[j] && dictionary.contains(text.subSequence(j+1, i+1))){
+					dp[i] = true;
+					break;
+				}
+			}
+		}
+		
+	}
+	return dp[n-1];
+}
